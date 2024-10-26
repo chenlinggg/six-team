@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hnhs.dao.UserDao">
+
+    <insert id="register">
+        insert 202_user (username,tel,password,email)
+        values (#{username},#{tel},#{password},#{email})
+    </insert>
+    <!--需要注意 已知数据库里面的字段是唯一 只允许出现一次-->
+    <select id="login" resultType="user">
+        select id,tel,password FROM 202_user
+        where tel=#{tel} and password=#{password} LIMIT 1
+
+    </select>
+</mapper>

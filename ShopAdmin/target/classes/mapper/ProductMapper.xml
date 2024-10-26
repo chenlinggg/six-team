@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hnhs.dao.ProductMapper">
+    <select id="selectAll" resultType="product">
+        select * from 202_product
+    </select>
+    <select id="select" resultType="product">
+        select id,name,subName,img,seq,price,brief,status,categoryId,lastUpdateBy,lastUpdateTime
+        from 202_product
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="ids != null">
+                and id in
+                <foreach collection="ids" item="item" separator="," open="(" close=")">
+                    #{item}
+                </foreach>
+            </if>
+
+            <if test="name != null">
+                and name like concat('%',#{name},'%')
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="categoryId != null">
+                and categoryId = #{categoryId}
+            </if>
+        </where>
+    </select>
+    <insert id="insert"  >
+        insert 202_product(name,subName,img,seq,price,brief,categoryId,lastUpdateBy)
+        values (#{name},#{subName},#{img},#{seq},#{price},#{brief},#{categoryId},#{lastUpdateBy})
+
+    </insert>
+    <update id="update">
+        update 202_product set name=#{name},subName=#{subName},img=#{img},seq=#{seq},price=#{price},brief=#{brief},categoryId=#{categoryId},lastUpdateBy=#{lastUpdateBy}
+        where id=#{id}
+
+    </update>
+    <!--删除：-->
+    <update id="updateStatus">
+        update 202_product set status=#{status} where id=#{id}
+
+    </update>
+</mapper>
